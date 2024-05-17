@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { LoginForm } from "./pages/LoginForm";
+import { RegisterForm } from "./pages/RegisterForm";
+import { Protected } from "./pages/Protected";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="">
+      <h1>To Do Application with Spring Boot and React</h1>
+      <div>
+        <BrowserRouter>
+          <Link to="/register">Register</Link> | <Link to="/login">Login</Link>|{" "}
+          <Link to="/">Home</Link>
+          <Routes>
+            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/protected" element={<Protected />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
