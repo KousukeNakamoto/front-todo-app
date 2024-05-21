@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export const useAuthGuard = () => {
   //   const [authenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
   const jwt = localStorage.getItem("JWT");
   useEffect(() => {
@@ -18,12 +18,15 @@ export const useAuthGuard = () => {
 
         if (response.status === 200) {
           const data = await response.json();
-          console.log(data);
+          console.log("useAuthGuard", data);
           setUser(data);
           //   setAuthenticated(true);
         } else {
           console.error("Authentication failed:", response.statusText);
           //   setAuthenticated(false);
+          if (localStorage.getItem("JWT")) {
+            localStorage.removeItem("JWT");
+          }
           navigate("/login");
         }
       } catch (error) {
@@ -37,9 +40,26 @@ export const useAuthGuard = () => {
       checkAuthentication();
     } else {
       //   setAuthenticated(false);
-      navigate("/login");
+      navigate("/");
     }
   }, [jwt, navigate]);
 
   return user;
+};
+
+export const useGetToDos = (id, setTodos) => {
+  useEffect(() => {
+    getToDos(id, setTodos);
+  }, [id, setTodos]);
+};
+
+export const getToDos = async (id, setTodos) => {
+  const jwt = localStorage.getItem("JWT");
+  const res = await fetch(`http://localhost:8080/todos/${id}`, {
+    headers: {
+      "X-AUTH-TOKEN": `Bearer ${jwt}`,
+    },
+  });
+  const data = await res.json();
+  setTodos(data);
 };

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button } from "../components/components";
+import { useNavigate } from "react-router-dom";
 
 export const RegisterForm = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ export const RegisterForm = () => {
       if (response.ok) {
         // Success handling
         console.log("Login successful", response);
+        navigate("/login");
       } else {
         // Error handling
         throw new Error();

@@ -14,7 +14,7 @@ function App() {
           <Routes>
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/protected" element={<Protected />} />
+            <Route path="/protected/:id" element={<Protected />} />
           </Routes>
         </BrowserRouter>
       </div>

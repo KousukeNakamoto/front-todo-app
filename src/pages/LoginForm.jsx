@@ -9,12 +9,13 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    localStorage.removeItem("JWT");
     try {
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // JSON形式のデータを送信することを指定
-          //   "X-AUTH-TOKEN": ``,
+          // "X-AUTH-TOKEN": ``,
         },
         body: JSON.stringify({
           username: name,
@@ -23,9 +24,10 @@ export const LoginForm = () => {
       });
       if (response.ok) {
         console.log("Login successful", response.headers.get("x-auth-token"));
-        console.log("Login successful", response);
+        console.log("Login successful", response.headers.get("user-id"));
+
         localStorage.setItem("JWT", response.headers.get("x-auth-token"));
-        router("/protected");
+        router(`/protected/${response.headers.get("user-id")}`);
       } else {
         // Error handling
         throw new Error();
