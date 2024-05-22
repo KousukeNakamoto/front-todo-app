@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { getToDos, useAuthGuard, useGetToDos } from "../auth/customHooks";
+import { useAuthGuard, useGetToDos } from "../hooks/customHooks";
 import { useParams } from "react-router-dom";
 import { calculateTimeDifference } from "../lib/lib";
+import { createTodo, deleteToDo, getToDos, updateTodo } from "../lib/todo";
+import LogoutComponent from "../components/LogoutComponent";
+import { CreateTodo } from "../components/CreateTodo";
 
 export const Protected = () => {
   const [todos, setTodos] = useState([]);
@@ -15,71 +18,57 @@ export const Protected = () => {
 
   useGetToDos(id, setTodos);
 
-  const createTodo = async (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
-    console.log(todo.duo_date);
-    const jwt = localStorage.getItem("JWT");
-    try {
-      await fetch("http://localhost:8080/create_todo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-AUTH-TOKEN": `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({
-          user_id: id,
-          title: todo.title,
-          description: todo.description,
-          due_date: todo.duo_date,
-        }),
-      });
-      getToDos(id, setTodos);
-    } catch (error) {
-      console.log(error);
-    }
+    await createTodo(todo, id);
+    getToDos(id, setTodos);
+  };
+  const handleDelete = async (todo) => {
+    await deleteToDo(todo);
+    getToDos(id, setTodos);
+  };
+
+  const handleUpdate = async (todo) => {
+    // console.log(todo.completed);
+    await updateTodo(todo, id);
+    getToDos(id, setTodos);
   };
 
   if (!user) return <h1>Error</h1>;
   return (
     <div>
+      <LogoutComponent />
       <h1>Protected Page{user.id}</h1>
-      <form onSubmit={createTodo} method="GET">
-        <label htmlFor="">
-          title:
-          <input
-            type="text"
-            value={todo.title}
-            onChange={(e) => setTodo({ ...todo, title: e.target.value })}
-          />
-        </label>
-        <label htmlFor="">
-          description:
-          <input
-            type="text"
-            value={todo.description}
-            onChange={(e) => setTodo({ ...todo, description: e.target.value })}
-          />
-        </label>
-        <div>
-          <label>Due Date:</label>
-          <input
-            type="datetime-local"
-            value={todo.duo_date}
-            onChange={(e) => setTodo({ ...todo, duo_date: e.target.value })}
-          />
-        </div>
-        <button type="submit">submit</button>
-      </form>
-      <button onClick={createTodo}>test</button>
+      <CreateTodo setTodos={setTodos} />
+
       {todos.map((todo) => (
-        <div key={todo.id}>
-          <div>{todo.title}</div>
+        <div
+          key={todo.id}
+          className={`w-max flex space-x-5 border-2 rounded-md m-4 p-4 ${
+            todo.completed ? "bg-blue-50" : "bg-red-50"
+          }`}
+          //   onClick={() => console.log(todo.completed)}
+        >
+          <div>
+            <input
+              type="checkbox"
+              checked={todo.completed ? true : false}
+              onChange={() => {
+                todo.completed = !todo.completed;
+                handleUpdate(todo);
+              }}
+            />
+          </div>
+          <div className="w-[30%]">{todo.title}</div>
           {todo.due_date ? (
             <div>
-              <div>{calculateTimeDifference(new Date(todo.due_date))}</div>
+              <div>
+                期限まで残り {calculateTimeDifference(new Date(todo.due_date))}
+              </div>
             </div>
           ) : null}
           <div>{todo.due_date}</div>
+          <button onClick={() => handleDelete(todo)}>delete</button>
         </div>
       ))}
     </div>
