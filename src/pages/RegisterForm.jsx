@@ -44,7 +44,7 @@ export const RegisterForm = () => {
               Name:
             </label>
             <input
-              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 rounded-md focus:outline-none focus:bg-white focus:shadow-inner"
+              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100 rounded-md focus:outline-none focus:bg-gray-200 focus:shadow-inner"
               type="text"
               id="name"
               value={name}
@@ -56,7 +56,7 @@ export const RegisterForm = () => {
               Password:
             </label>
             <input
-              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 rounded-md focus:outline-none focus:bg-white focus:shadow-inner"
+              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100 rounded-md focus:outline-none focus:bg-gray-200 focus:shadow-inner"
               type="password"
               id="password"
               value={password}

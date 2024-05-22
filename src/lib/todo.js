@@ -36,7 +36,7 @@ export const createTodo = async (todo, id) => {
         user_id: id,
         title: todo.title,
         description: todo.description,
-        due_date: todo.duo_date,
+        due_date: todo.due_date,
       },
       {
         headers: {
