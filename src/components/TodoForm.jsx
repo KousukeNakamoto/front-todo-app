@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 
 export const TodoForm = ({ handleUpdate, handleCloseDialog, prevTodo }) => {
   const [todo, setTodo] = useState(prevTodo);
-
   return (
     <div className="p-12">
       <form
@@ -20,7 +18,7 @@ export const TodoForm = ({ handleUpdate, handleCloseDialog, prevTodo }) => {
             <input
               className="w-full px-4 py-2 mt-2 text-gray-700  bg-gray-100  focus:bg-gray-200 rounded-md focus:outline-none  focus:shadow-inner"
               type="text"
-              value={todo.title}
+              value={todo.title ? todo.title : ""}
               onChange={(e) => setTodo({ ...todo, title: e.target.value })}
             />
           </label>
@@ -30,7 +28,7 @@ export const TodoForm = ({ handleUpdate, handleCloseDialog, prevTodo }) => {
           <input
             className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100  focus:bg-gray-200 rounded-md focus:outline-none  focus:shadow-inner"
             type="text"
-            value={todo.description}
+            value={todo.description ? todo.description : ""}
             onChange={(e) => setTodo({ ...todo, description: e.target.value })}
           />
         </div>
@@ -39,7 +37,7 @@ export const TodoForm = ({ handleUpdate, handleCloseDialog, prevTodo }) => {
           <input
             className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-100  focus:bg-gray-200 rounded-md focus:outline-none  focus:shadow-inner"
             type="datetime-local"
-            value={todo.due_date}
+            value={todo.due_date ? todo.due_date : ""}
             onChange={(e) => setTodo({ ...todo, due_date: e.target.value })}
           />
         </div>

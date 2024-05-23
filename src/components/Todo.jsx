@@ -30,7 +30,9 @@ export const Todo = ({ todo, handleDelete, handleUpdate }) => {
             <div className="mt-2 text-sm text-gray-600">
               期限まで残り {calculateTimeDifference(new Date(todo.due_date))}
             </div>
-          ) : null}
+          ) : (
+            <div>期限なし</div>
+          )}
           <div className="mt-1 text-xs text-gray-500">{todo.due_date}</div>
         </div>
         <div className="flex space-x-4">

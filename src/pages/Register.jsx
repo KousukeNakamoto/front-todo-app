@@ -2,16 +2,15 @@ import { useState } from "react";
 import { Button } from "../components/components";
 import { useNavigate } from "react-router-dom";
 
-export const LoginForm = () => {
+export const RegisterPage = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const router = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.removeItem("JWT");
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch("http://localhost:8080/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // JSON形式のデータを送信することを指定
@@ -21,12 +20,11 @@ export const LoginForm = () => {
           password: password,
         }),
       });
-      if (response.ok) {
-        console.log("Login successful", response.headers.get("x-auth-token"));
-        console.log("Login successful", response.headers.get("user-id"));
 
-        localStorage.setItem("JWT", response.headers.get("x-auth-token"));
-        router(`/protected/${response.headers.get("user-id")}`);
+      if (response.ok) {
+        // Success handling
+        console.log("Login successful", response);
+        navigate("/login");
       } else {
         // Error handling
         throw new Error();
@@ -39,7 +37,7 @@ export const LoginForm = () => {
   return (
     <div className="h-full flex items-center">
       <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
-        <h1 className="text-2xl mb-4">Login</h1>
+        <h1 className="text-2xl mb-4">Register</h1>
         <form onSubmit={handleSubmit} method="post">
           <div className="mb-4">
             <label className="block text-gray-700" htmlFor="name">
@@ -65,7 +63,7 @@ export const LoginForm = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button label={"Submit"} />
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>

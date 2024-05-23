@@ -14,6 +14,11 @@ export const CreateTodo = ({ setTodos, handleCloseDialog }) => {
     e.preventDefault();
     await createTodo(todo, id);
     getToDos(id, setTodos);
+    setTodo({
+      title: "",
+      description: "",
+      due_date: "",
+    });
     handleCloseDialog();
   };
 

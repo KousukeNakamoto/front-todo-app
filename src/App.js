@@ -1,20 +1,19 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import { LoginForm } from "./pages/LoginForm";
-import { RegisterForm } from "./pages/RegisterForm";
+import { Link, Route, Routes } from "react-router-dom";
+import { LoginPage } from "./pages/Login";
+import { RegisterPage } from "./pages/Register";
 import { Protected } from "./pages/Protected";
 import { Home } from "./pages/Home";
 
 function App() {
   return (
     <div className="h-screen font-bold">
-      <h1>To Do Application with Spring Boot and React</h1>
       <div className="h-full">
         <Link to="/register">Register</Link> | <Link to="/login">Login</Link>|{" "}
         <Link to="/">Home</Link>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/protected/:id" element={<Protected />} />
         </Routes>
       </div>
